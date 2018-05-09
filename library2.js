@@ -20,8 +20,8 @@ var library = {
                       name: "Other Playlist",
                       tracks: ["t03"]
                     }
-             }
-}
+             },
+
 
 // FUNCTIONS TO IMPLEMENT:
 
@@ -29,91 +29,80 @@ var library = {
 // p01: Coding Music - 2 tracks
 // p02: Other Playlist - 1 tracks
 
-var printPlaylists = function () {
-  for(var numberOfPlaylist in library.playlists) {
-    var outPut = numberOfPlaylist + ': ' + library.playlists[numberOfPlaylist].name + ' - ' + library.playlists[numberOfPlaylist].tracks.length + ' tracks';
+printPlaylists: function () {
+  for(var numberOfPlaylist in this.playlists) {
+    var outPut = numberOfPlaylist + ': ' + this.playlists[numberOfPlaylist].name + ' - ' + this.playlists[numberOfPlaylist].tracks.length + ' tracks';
     console.log(outPut);
   }
-}
-printPlaylists();
+},
 
 // prints a list of all tracks, in the form:
 // t01: Code Monkey by Jonathan Coulton (Thing a Week Three)
 // t02: Model View Controller by James Dempsey (WWDC 2003)
 // t03: Four Thirty-Three by John Cage (Woodstock 1952)
 
-var printTracks = function () {
-  for(var printPlaylist in library.tracks) {
-    var outPut = printPlaylist + ': ' + library.tracks[printPlaylist].name + ' by ' + library.tracks[printPlaylist].artist + ' (' + library.tracks[printPlaylist].album + ')';
+printTracks: function () {
+  for(var printPlaylist in this.tracks) {
+    var outPut = printPlaylist + ': ' + this.tracks[printPlaylist].name + ' by ' + this.tracks[printPlaylist].artist + ' (' + this.tracks[printPlaylist].album + ')';
     console.log(outPut);
   }
-}
-printTracks();
-
+},
 
 // prints a list of tracks for a given playlist, in the form:
 // p01: Coding Music - 2 tracks
 // t01: Code Monkey by Jonathan Coulton (Thing a Week Three)
 // t02: Model View Controller by James Dempsey (WWDC 2003)
 
-var printPlaylist = function (playlistId) {
-   var outPut = playlistId + ': ' + library.playlists[playlistId].name + ' - ' + library.playlists[playlistId].tracks.length + ' tracks';
+printPlaylist: function (playlistId) {
+   var outPut = playlistId + ': ' + this.playlists[playlistId].name + ' - ' + this.playlists[playlistId].tracks.length + ' tracks';
    console.log(outPut);
-   for(var outPutTracks of library.playlists[playlistId].tracks) {
-    var outPut2 = outPutTracks + ': ' + library.tracks[outPutTracks].name + ' by ' + library.tracks[outPutTracks].artist + ' (' + library.tracks[outPutTracks].album + ')';
+   for(var outPutTracks of this.playlists[playlistId].tracks) {
+    var outPut2 = outPutTracks + ': ' + this.tracks[outPutTracks].name + ' by ' + this.tracks[outPutTracks].artist + ' (' + this.tracks[outPutTracks].album + ')';
     console.log(outPut2);
    }
-}
-printPlaylist('p01');
+},
 
 // adds an existing track to an existing playlist
 
-var addTrackToPlaylist = function (trackId, playlistId) {
-  library.playlists[playlistId].tracks.push(trackId);
-}
-addTrackToPlaylist('t03','p01');
+addTrackToPlaylist: function (trackId, playlistId) {
+  this.playlists[playlistId].tracks.push(trackId);
+},
 
 // generates a unique id
 // (use this for addTrack and addPlaylist)
 
-var uid = function() {
+uid: function() {
   return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-}
-
+},
 
 // adds a track to the library
 
-var addTrack = function (name, artist, album) {
+addTrack: function (name, artist, album) {
 
-  trackNumber = Object.keys(library.tracks).length + 1;
+  trackNumber = Object.keys(this.tracks).length + 1;
 
   trackNumber = 't0' + trackNumber;
 
-  library.tracks[trackNumber] = {};
-  library.tracks[trackNumber].id = (uid());
-  library.tracks[trackNumber].name = name;
-  library.tracks[trackNumber].artist = artist;
-  library.tracks[trackNumber].album = album;
+  this.tracks[trackNumber] = {};
+  this.tracks[trackNumber].id = (this.uid());
+  this.tracks[trackNumber].name = name;
+  this.tracks[trackNumber].artist = artist;
+  this.tracks[trackNumber].album = album;
 
-}
-addTrack('Silence In the Snow','Trivium','Silent In The Snow');
-addTrack('Silence In the Snow2','Trivium2','Silent In The Snow2');
-console.log(library.tracks);
+},
 
 // adds a playlist to the library
 
-var addPlaylist = function (name) {
+addPlaylist: function (name) {
 
-  playlistNumber = Object.keys(library.playlists).length + 1;
+  playlistNumber = Object.keys(this.playlists).length + 1;
 
   playlistNumber = 'p0' + playlistNumber;
 
-  library.playlists[playlistNumber] = {};
-  library.playlists[playlistNumber].id = playlistNumber;
-  library.playlists[playlistNumber].name = name;
-}
-addPlaylist('The Best of');
-console.log(library);
+  this.playlists[playlistNumber] = {};
+  this.playlists[playlistNumber].id = playlistNumber;
+  this.playlists[playlistNumber].name = name;
+},
 
 // STRETCH:
 // given a query string string, prints a list of tracks
@@ -121,17 +110,28 @@ console.log(library);
 // tip: use "string".search("tri")
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/search
 
-var printSearchResults = function(query) {
-  for(var numberOfTracks in library.tracks) {
-    if(library.tracks[numberOfTracks].name.toLowerCase().search(query.toLowerCase()) === 0) {
-      console.log('Name:',library.tracks[numberOfTracks].name,'Artist:',library.tracks[numberOfTracks].artist,'Album:',library.tracks[numberOfTracks].album);
+printSearchResults: function(query) {
+  for(var numberOfTracks in this.tracks) {
+    if(this.tracks[numberOfTracks].name.toLowerCase().search(query.toLowerCase()) === 0) {
+      console.log('Name:',this.tracks[numberOfTracks].name,'Artist:',this.tracks[numberOfTracks].artist,'Album:',this.tracks[numberOfTracks].album);
     }
     if(library.tracks[numberOfTracks].artist.toLowerCase().search(query.toLowerCase()) === 0) {
-      console.log('Name:',library.tracks[numberOfTracks].name,'Artist:',library.tracks[numberOfTracks].artist,'Album:',library.tracks[numberOfTracks].album);
+      console.log('Name:',this.tracks[numberOfTracks].name,'Artist:',this.tracks[numberOfTracks].artist,'Album:',this.tracks[numberOfTracks].album);
     }
     if(library.tracks[numberOfTracks].album.toLowerCase().search(query.toLowerCase()) === 0) {
-      console.log('Name:',library.tracks[numberOfTracks].name,'Artist:',library.tracks[numberOfTracks].artist,'Album:',library.tracks[numberOfTracks].album);
+      console.log('Name:',this.tracks[numberOfTracks].name,'Artist:',this.tracks[numberOfTracks].artist,'Album:',this.tracks[numberOfTracks].album);
     }
   }
 }
-printSearchResults('tri');
+
+};
+library.printPlaylists();
+library.printTracks();
+library.printPlaylist('p01');
+library.addTrackToPlaylist('t03','p01');
+library.addTrack('Silence In the Snow','Trivium','Silent In The Snow');
+library.addTrack('Silence In the Snow2','Trivium2','Silent In The Snow2');
+console.log(library.tracks);
+library.addPlaylist('The Best of');
+console.log(library);
+library.printSearchResults('tri');
